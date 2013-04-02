@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title></title>
+		<meta charset="utf-8" />
+		<script src="cordova.js"></script>
+		<script src="kendo/js/jquery.min.js"></script>
+		<script src="kendo/js/kendo.mobile.min.js"></script>
+		<script src="scripts/app.js"></script>
+
+		<link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+		<link href="styles/app.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<div data-role="layout" data-id="default">
+			<header data-role="header">
+				<div data-role="navbar">
+					<span data-role="view-title"></span>
+				</div>
+			</header>
+			<footer data-role="footer" data-id="default">
+				<div data-role="tabstrip">
+					<a href="#home" data-icon="home">Home</a>
+					<a href="#search" data-icon="search">Search</a>
+					<a href="#favourites" data-icon="favorites">Favourites</a>
+				</div>
+			</footer>
+		</div>
+
+		<div data-role="view" id="home" data-layout="default" data-title="Home">
+			<h1>About People Directory</h1>
+			<p>
+				The People Directory is a simple demo of a cross-platform device application
+				written in HTML5, JavaScript and CSS3. The appliocation is styled to
+				mimic a native device application using the Kendo UI library from Telerik.
+				The website is then wrapped inside Apache Cordova and at this point can be
+				deployed to iOS, Android, Windows Phone and Blackberry devices using the
+				Adobe PhoneGap Build service.
+
+				The code-base for the app is shared by the various devices and stored in
+				one repository. Styling can be adjusted to suit various device formats as required.
+			</p>
+		</div>
+
+		<div data-role="view" id="search" data-layout="default" data-title="Search Contacts">
+			<ul data-role="listview" data-style="inset">
+				<li>
+					Search for:
+					<input id="searchBox" 
+						   size="10" 
+						   maxlength="10" 
+						   type="search" 
+						   value="" 
+						   class="km-textbox" 
+						   placeholder="Search Text"
+						   required 
+						   onchange="getData(onResult)" />
+				</li>
+				<li>
+					<span class="value">
+						<a class="km-button" data-role="button" id="search-button">
+							<span class="km-text">Search</span>
+						</a>
+					</span>
+				</li>
+			</ul>
+			<ul id="contactsList"
+				class="item-list"
+				data-role="listview"
+				data-template="personTemplate">
+			</ul>
+		</div>
+
+		<div data-title="Favourites" data-role="view" id="favourites" data-url="/" data-layout="default" data-show="showFavorites">
+
+			<ul id="featuredList"
+				class="item-list"
+				data-role="listview"
+				data-template="personTemplateFavs">
+			</ul>
+
+		</div>
+
+		<div data-role="view" id="details" data-transition="slide" data-layout="default" data-show="showDetailsView">
+			<header data-role="header">
+				<div data-role="navbar">
+					<a data-role="backbutton" data-align="left">Back</a>
+					<a data-role="button" type="button" id="savebutton" data-click="addToFavs" data-align="right" data-icon="favorites"></a>
+					<span data-role="view-title">Contact Profile</span>
+				</div>
+			</header>
+			<div data-role="content">
+			</div>
+		</div>
+
+		<script id="personTemplate" type="text/x-kendo-template">
+			<a  
+				class="details-link"
+				data-role="listview-link"
+				href="\#details?id=${data.PersonId}&calleeType=search">
+				<div id="person">
+					<img onerror='this.style.display = "none"' border="0" id='img#=data.PersonId#'  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
+					<h2>#=data.FirstName# #=data.LastName#</h2>
+
+				</div>
+			</a>
+           
+		</script>
+
+		<script id="personTemplateFavs" type="text/x-kendo-template">
+			<a 
+				class="details-link"
+				data-role="listview-link"
+				href="\#details?id=${data.PersonId}&calleeType=favs">
+				<div id="person">
+					<img onerror='this.style.display = "none"' border="0" id='img#=data.PersonId#'  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
+					<h2>#=data.FirstName# #=data.LastName#</h2>
+
+				</div>
+			</a>
+           
+		</script>
+
+		<script id="detailTemplate" type="text/x-kendo-template">
+			<ul id="tabstrip-profile" data-role="listview" data-style="inset" data-type="group">
+				<li style="font-size:small;">
+					Profile
+					<ul>
+						<li>
+							<h2>#=data.FirstName# <span>#=data.LastName#</span></h2>
+							<img width="72px"  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
+						</li>
+						<li>
+							<ul data-role="listview" data-style="inset" data-type="group">
+								<li>
+									Contact Details:
+									<ul>
+										<li>
+											Email <span class="value">
+												<a data-rel="external"  href="mailto:#=data.Email#">#=data.Email#</a>
+											</span>
+										</li>
+										<li>
+											Telephone <span class="value">
+												<a data-rel="external" href="tel:#=data.Telephone#">#=data.Telephone#</a>
+											</span>
+										</li>
+										<li>
+											Address <span class="value"> #=data.OfficeName# <br/> #=data.AddressLine1# <br/> #=data.AddressLine2# <br/>  #=data.AddressLine3# <br/>  #=data.CountryCode#  </span>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</script>
+
+		<script>
+			
+			/* Access to the main app object */
+			var _app;
+
+			/* Local Storage Keys */
+			var _storageKeyFavs = "skey_dsFavs";
+			var _storageKeyProfile = "skey_dsProfile";
+			
+			/* Template used for the Contact Detail */
+			var _itemDetailsTemplate = kendo.template($("#detailTemplate").text());
+			
+			/* Global DataSources */
+			var _ds, _dsFavourites;
+			
+			/* Schema for the feed datasource */
+			var _schema;
+			
+			/* Currently selected person, used for adding favs */
+			var _currentPerson;
+			
+			// Kick off the App
+			_app = new kendo.mobile.Application($(document.body), { transition: "fade" });
+			
+			$(document).ready(function () {
+				// if this is the first time then show the welcome page
+				//  _app.navigate('#welcome');
+				initApp();
+			});
+			
+		</script>
+
+	</body>
+</html>

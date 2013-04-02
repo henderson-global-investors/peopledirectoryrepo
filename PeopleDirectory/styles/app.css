@@ -1,0 +1,117 @@
+#tabstrip-settings input:not([type=checkbox]):not([type=radio]),
+#tabstrip-settings select,
+#tabstrip-settings .k-dropdown
+{
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 50%;
+}
+
+#tabstrip-profile h2
+{
+	display: inline-block;
+	margin: 1.5em 0 0 1em;
+}
+
+#tabstrip-profile h2 span
+{
+	display: block;
+	clear: both;
+	margin: .2em 0 0 0;
+}
+
+#tabstrip-profile img
+{
+	width: 72px;
+	float: left;
+	margin: 1em;
+	-webkit-box-shadow: 0 1px 3px #333;
+	box-shadow: 0 1px 3px #333;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+}
+
+#index h2
+{
+	display: inline-block;
+	margin: 1.5em 0 0 1em;
+}
+
+#index h2 span
+{
+	display: block;
+	clear: both;
+	margin: .2em 0 0 0;
+}
+
+img
+{
+
+	background: url('/img/spinner.gif') no-repeat  center;
+}
+
+#index img
+{
+	width: 72px;
+	float: left;
+	margin: 1em;
+	-webkit-box-shadow: 0 1px 3px #333;
+	box-shadow: 0 1px 3px #333;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+}
+
+#person img
+{
+	width: 72px;
+	height: 72px;
+	float: left;
+	margin: 1em;
+	-webkit-box-shadow: 0 1px 3px #333;
+	box-shadow: 0 1px 3px #333;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+}
+
+#person h2
+{
+	display: inline-block;
+	margin: 1.5em 0 0 1em;
+}
+
+#person h3
+{
+	display: inline-block;
+	margin: 1.5em 0 0 1em;
+}
+
+#person h2 span
+{
+	display: block;
+	clear: both;
+	margin: .2em 0 0 0;
+}
+
+.details-link
+{
+	height: 120px;
+}
+
+.value
+{
+	float: right;
+	color: rgba(192, 192, 192, 1.0);
+    text-align: right;
+    font-size: small;
+}
+
+.km-root .km-on-android .km-view span.km-icon
+{
+	background: none;
+}
+
+.km-root .km-pane.km-pane.km-on-android .km-view span.km-icon:after
+{
+	background: none;
+	-webkit-text-fill-color: inherit;
+}
