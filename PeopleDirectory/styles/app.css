@@ -1,3 +1,8 @@
+.km-android div.km-view
+{
+	-webkit-box-direction: normal;
+}
+
 #tabstrip-settings input:not([type=checkbox]):not([type=radio]),
 #tabstrip-settings select,
 #tabstrip-settings .k-dropdown
@@ -46,7 +51,6 @@
 
 img
 {
-
 	background: url('/img/spinner.gif') no-repeat  center;
 }
 
@@ -101,8 +105,8 @@ img
 {
 	float: right;
 	color: rgba(192, 192, 192, 1.0);
-    text-align: right;
-    font-size: small;
+	text-align: right;
+	font-size: small;
 }
 
 .km-root .km-on-android .km-view span.km-icon

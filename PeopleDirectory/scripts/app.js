@@ -120,9 +120,7 @@ function addToFavs(e) {
 		showRemoveFromFavIcon();
 
 		// tell the user!
-		alert(person.FirstName
-			  + ' ' + person.LastName
-			  + ' has been added to your favourites!');
+        navigator.notification.alert(person.FirstName + ' ' + person.LastName + ' has been added to your favourites.', null, "Favourites");        
 	}
 	else {
 		// remove the fav (taken from http://jsfiddle.net/derickbailey/D4g8S/)
@@ -145,9 +143,7 @@ function addToFavs(e) {
 		showAddToFavIcon();
 
 		// tell the user!
-		alert(person.FirstName
-			  + ' ' + person.LastName
-			  + ' has been removed from your favourites!');
+        navigator.notification.alert(person.FirstName + ' ' + person.LastName + ' has been removed from your favourites.', null, "Favourites");
 	}
 }
 
@@ -274,8 +270,7 @@ function getData(callback) {
 	var searchTerm = '';
 
 	if (searchBox.value != null) {
-		searchTerm = "http://localhost:1679/CloudProxy.ashx?search=" + searchBox.value;
-		//   searchTerm = "http://peopledirectory.cloudapp.net/PeopleDirectoryWCFDataService.svc/GetPeople?$top=50&namePart='" + searchBox.value + "'";
+		searchTerm = "http://peopledirectory.cloudapp.net/PeopleDirectoryWCFDataService.svc/GetPeople?$top=50&namePart='" + searchBox.value + "'";
 
 		_ds = new kendo.data.DataSource({
 			transport: {
