@@ -34,7 +34,6 @@ function initApp() {
 	_dsFavourites = new kendo.data.DataSource({
 		schema: _schema,
 		group: { field: "Initial" }
-
 	});
 
 	// attempt to get the favs
@@ -184,6 +183,42 @@ function getProfile() {
 		_dsMyProfile.read();
 	}
 }
+
+function showMap(e)
+{
+    alert(e);
+    navigator.geolocation.getCurrentPosition(OnLocationSuccess, OnLocationError, true);
+}
+
+function OnLocationSuccess(position)
+{
+    var mapElem = document.getElementById("map");
+    var options = {enableHighAccuracy: true};
+    
+    // Use Google API to get the location data for the current coordinates
+    var latlng = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude, options);
+    alert(latlng);
+    
+    
+    var myMapOptions = {
+        zoom: 11,
+        center: latlng,
+        mapTypeControl: false,
+        navigationControlOptions: { style: window.google.maps.NavigationControlStyle.SMALL },
+        mapTypeId: window.google.maps.MapTypeId.ROADMAP
+    };
+    
+    var mapObj = new window.google.maps.Map(mapElem, myMapOptions);
+    google.maps.event.trigger(map, "resize");
+}
+
+function OnLocationError(error)
+{
+    
+}
+
+
+
 
 /// <summary>
 /// Show the Details view based on the person selected (view.params.id) 

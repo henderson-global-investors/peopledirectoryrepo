@@ -30,44 +30,38 @@
 				</div>
 			</footer>
 		</div>
-        
-		<div data-role="view" id="home" data-layout="default" data-title="Home">
-			<h1>About People Directory</h1>
-			<p>
-				The People Directory is a simple demo of a cross-platform device application
-				written in HTML5, JavaScript and CSS3. The application is styled to
-				mimic a native device application using the Kendo UI library from Telerik.
-				The website is then wrapped inside Apache Cordova and at this point can be
-				deployed to iOS, Android, Windows Phone and Blackberry devices using the
-				Adobe PhoneGap Build service.
 
+		<div data-role="view" id="home" data-layout="default" data-title="Home">
+			<img src="images/Logo.png" />
+			<h2 align="center">People Directory</h2>
+			<p style="font-size:smaller">
+				People Directory is a demo of a cross-platform device application
+				written in HTML5, JavaScript and CSS3. The application is styled to
+				mimic a native device application using the Kendo UI library from Telerik
+				and then wrapped inside an Apache Cordova native application package.
 				The code-base for the app is shared by the various devices and stored in
-				one repository. Styling can be adjusted to suit various device formats as required.
+				one repository. The data used by the application is hosted in Windows Azure.
 			</p>
 		</div>
 
 		<div data-role="view" id="search" data-layout="default" data-title="Search">
-			<ul data-role="listview" data-style="inset">
-				<li>
-					Search for:
-					<input id="searchBox" 
-						   size="10" 
-						   maxlength="10" 
-						   type="search" 
-						   value="" 
-						   class="km-textbox" 
-						   placeholder="Search Text"
-						   required 
-						   onchange="getData(onResult)" />
-				</li>
-				<li>
-					<span class="value">
-						<a class="km-button" data-role="button" id="search-button">
-							<span class="km-text">Search</span>
-						</a>
-					</span>
-				</li>
-			</ul>
+			<div class="search-container">
+				<input
+					class="search-text"
+					id="searchBox"
+					maxlength="20"
+					type="search"
+					value=""
+					placeholder="First or last name (or part of)"
+					required
+					onchange="getData(onResult)" />
+				<a
+					id="search-button"
+					data-role="button" 
+					data-icon="search">
+				</a>
+			</div>
+
 			<ul id="contactsList"
 				class="item-list"
 				data-role="listview"
@@ -76,26 +70,32 @@
 		</div>
 
 		<div data-title="Favourites" data-role="view" id="favourites" data-url="/" data-layout="default" data-show="showFavorites">
-
 			<ul id="featuredList"
 				class="item-list"
 				data-role="listview"
 				data-template="personTemplateFavs">
 			</ul>
-
 		</div>
 
-		<div data-role="view" id="details" data-transition="slide" data-layout="default" data-show="showDetailsView">
+		<div data-role="view" id="details" data-layout="default" data-show="showDetailsView">
 			<header data-role="header">
 				<div data-role="navbar">
-					<a data-role="backbutton" data-align="left">Back</a>
-					<a data-role="button" type="button" id="savebutton" data-click="addToFavs" data-align="right" data-icon="favorites"></a>
-					<span data-role="view-title">Contact Profile</span>
+					<a data-role="backbutton" data-align="left" data-icon="reply" class="button"></a>
+					<a data-role="button" id="savebutton" data-click="addToFavs" data-align="right" data-icon="favorites" class="button"></a>
+					<span data-role="view-title">Contact Details</span>
 				</div>
 			</header>
 			<div data-role="content">
 			</div>
 		</div>
+        
+        <div data-role="view" id="map" data-layout="default">
+            
+            
+            
+            
+            
+        </div>
 
 		<script id="personTemplate" type="text/x-kendo-template">
 			<a  

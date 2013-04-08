@@ -1,3 +1,36 @@
+.search-text
+{
+    font-size: 1em;
+    width: 80%;
+}
+
+.search-container {
+    text-align: center;
+}
+
+.km-ios .search-container {
+    margin:10px;
+}
+
+.km-android .search-container
+{
+    margin: 10px;
+}
+
+.km-ios .search-container input[type="search"] {
+    padding: 2px;
+    margin: 0;
+}
+
+.km-ios .search-container a {
+    margin: 0;
+}
+
+#home img {
+    margin: 15px auto 0px;
+    display: block;
+}
+
 .km-android div.km-view
 {
 	-webkit-box-direction: normal;
@@ -99,6 +132,13 @@ img
 .details-link
 {
 	height: 120px;
+}
+
+.button 
+{
+    margin: 0px 5px;
+    width: 20px;
+    
 }
 
 .value
