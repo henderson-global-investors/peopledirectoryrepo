@@ -8,9 +8,11 @@
 		<script src="cordova.js"></script>
 		<script src="kendo/js/jquery.min.js"></script>
 		<script src="kendo/js/kendo.mobile.min.js"></script>
-		<script src="scripts/app.js"></script>
+		<script src="js/app.js"></script>
+        
+	    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCKZX6FtwyLG6mhzUcCtsgzDVwixnkjDTI&sensor=true"></script>
 
-		<link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+	    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
 		<link href="styles/app.css" rel="stylesheet" />
 	</head>
 
@@ -32,7 +34,7 @@
 		</div>
 
 		<div data-role="view" id="home" data-layout="default" data-title="Home">
-			<img src="images/Logo.png" />
+			<img src="img/Logo.png" />
 			<h2 align="center">People Directory</h2>
 			<p style="font-size:smaller">
 				People Directory is a demo of a cross-platform device application
@@ -47,7 +49,7 @@
 		<div data-role="view" id="search" data-layout="default" data-title="Search">
 			<div class="search-container">
 				<input
-					class="search-text"
+                    class="search-text"
 					id="searchBox"
 					maxlength="20"
 					type="search"
@@ -56,10 +58,10 @@
 					required
 					onchange="getData(onResult)" />
 				<a
-					id="search-button"
-					data-role="button" 
-					data-icon="search">
-				</a>
+                    id="search-button"
+                    data-role="button" 
+                    data-icon="search">
+                </a>
 			</div>
 
 			<ul id="contactsList"
@@ -70,40 +72,54 @@
 		</div>
 
 		<div data-title="Favourites" data-role="view" id="favourites" data-url="/" data-layout="default" data-show="showFavorites">
+
 			<ul id="featuredList"
 				class="item-list"
 				data-role="listview"
 				data-template="personTemplateFavs">
 			</ul>
+
 		</div>
 
-		<div data-role="view" id="details" data-layout="default" data-show="showDetailsView">
-			<header data-role="header">
-				<div data-role="navbar">
-					<a data-role="backbutton" data-align="left" data-icon="reply" class="button"></a>
-					<a data-role="button" id="savebutton" data-click="addToFavs" data-align="right" data-icon="favorites" class="button"></a>
-					<span data-role="view-title">Contact Details</span>
-				</div>
-			</header>
-			<div data-role="content">
-			</div>
-		</div>
+	    <div data-role="view" id="details" data-layout="default" data-show="showDetailsView">
+	        <header data-role="header">
+	            <div data-role="navbar">
+	                <a data-role="backbutton" data-align="left" data-icon="reply" class="button"></a>
+	                <a data-role="button" type="button" id="savebutton" data-click="addToFavs" data-align="right" data-icon="favorites" class="button"></a>
+	                <span data-role="view-title">Contact Profile</span>
+	            </div>
+	        </header>
+	        <div data-role="content">
+		      
+	        </div>
+             
+            
+	    </div>
         
-        <div data-role="view" id="map" data-layout="default">
+        
+        <div id="locationMap" data-title="Map" data-role="view" data-layout="default"  data-stretch="true"  >
+      
+             <header data-role="header">
+	            <div data-role="navbar">
+	                <a data-role="backbutton" data-align="left" data-icon="reply" class="button"></a>
+	                <span data-role="view-title">Location Map</span>
+	            </div>
+	        </header>
             
-            
-            
-            
-            
+             <!-- map -->
+            <div id="map_holder"></div>
+            <div id="displayDirections"></div>
+           
         </div>
 
-		<script id="personTemplate" type="text/x-kendo-template">
+
+        <script id="personTemplate" type="text/x-kendo-template">
 			<a  
 				class="details-link"
 				data-role="listview-link"
 				href="\#details?id=${data.PersonId}&calleeType=search">
 				<div id="person">
-					<img onerror='this.style.display = "none"' border="0" id='img#=data.PersonId#'  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
+					<img class='contactImg' onerror='this.style.display = "none"' border="0" id='img#=data.PersonId#'  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
 					<h2>#=data.FirstName# #=data.LastName#</h2>
 
 				</div>
@@ -117,7 +133,7 @@
 				data-role="listview-link"
 				href="\#details?id=${data.PersonId}&calleeType=favs">
 				<div id="person">
-					<img onerror='this.style.display = "none"' border="0" id='img#=data.PersonId#'  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
+					<img  class='contactImg' onerror='this.style.display = "none"' border="0" id='img#=data.PersonId#'  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
 					<h2>#=data.FirstName# #=data.LastName#</h2>
 
 				</div>
@@ -125,19 +141,19 @@
            
 		</script>
 
-		<script id="detailTemplate" type="text/x-kendo-template">
+	    <script id="detailTemplate" type="text/x-kendo-template">
 			<ul id="tabstrip-profile" data-role="listview" data-style="inset" data-type="group">
 				<li style="font-size:small;">
 					Profile
 					<ul>
 						<li>
 							<h2>#=data.FirstName# <span>#=data.LastName#</span></h2>
-							<img width="72px"  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
+							<img   class='contactImg' width="72px"  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
 						</li>
 						<li>
 							<ul data-role="listview" data-style="inset" data-type="group">
 								<li>
-									Contact Details:
+									Contact Details: 
 									<ul>
 										<li>
 											Email <span class="value">
@@ -150,47 +166,57 @@
 											</span>
 										</li>
 										<li>
-											Address <span class="value"> #=data.OfficeName# <br/> #=data.AddressLine1# <br/> #=data.AddressLine2# <br/>  #=data.AddressLine3# <br/>  #=data.CountryCode#  </span>
+											Address <span class="value"> #=data.OfficeName# 
+                                                    <br/> #=data.AddressLine1# 
+                                                    <br/> #=data.AddressLine2# 
+                                                    <br/> #=data.AddressLine3# 
+                                                    <br/> #=data.CountryCode# 
+                                                    <br/> <button data-role="button" data-icon="globe"  data-click="showLocationMap" id="showMap"></button> </span>
+                                             
 										</li>
 									</ul>
 								</li>
 							</ul>
 						</li>
+                        <li>
+                           
+            
+                        </li>
 					</ul>
 				</li>
 			</ul>
 		</script>
 
 		<script>
-			
-			/* Access to the main app object */
-			var _app;
 
-			/* Local Storage Keys */
-			var _storageKeyFavs = "skey_dsFavs";
-			var _storageKeyProfile = "skey_dsProfile";
-			
-			/* Template used for the Contact Detail */
-			var _itemDetailsTemplate = kendo.template($("#detailTemplate").text());
-			
-			/* Global DataSources */
-			var _ds, _dsFavourites;
-			
-			/* Schema for the feed datasource */
-			var _schema;
-			
-			/* Currently selected person, used for adding favs */
-			var _currentPerson;
-			
-			// Kick off the App
-			_app = new kendo.mobile.Application($(document.body), { transition: "fade" });
-			
-			$(document).ready(function () {
-				// if this is the first time then show the welcome page
-				//  _app.navigate('#welcome');
-				initApp();
-			});
-			
+		    /* Access to the main app object */
+		    var _app;
+
+		    /* Local Storage Keys */
+		    var _storageKeyFavs = "skey_dsFavs";
+		    var _storageKeyProfile = "skey_dsProfile";
+
+		    /* Template used for the Contact Detail */
+		    var _itemDetailsTemplate = kendo.template($("#detailTemplate").text());
+
+		    /* Global DataSources */
+		    var _ds, _dsFavourites;
+
+		    /* Schema for the feed datasource */
+		    var _schema;
+
+		    /* Currently selected person, used for adding favs */
+		    var _currentPerson;
+
+		    // Kick off the App
+		    _app = new kendo.mobile.Application($(document.body), { transition: "fade" });
+
+		    $(document).ready(function () {
+		        // if this is the first time then show the welcome page
+		        //  _app.navigate('#welcome');
+		        initApp();
+		    });
+
 		</script>
 
 	</body>
