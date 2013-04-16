@@ -68,6 +68,8 @@
     <Content Include="kendo\styles\images\back.png" />
     <Content Include="kendo\styles\images\KendoUI.ttf" />
     <Content Include="kendo\styles\images\KendoUI.woff" />
+    <Content Include="kendo\styles\images\wp8_icons.png" />
+    <Content Include="kendo\styles\images\wp8_inverseicons.png" />
     <Content Include="kendo\styles\kendo.mobile.all.min.css" />
     <Content Include="js\app.js" />
     <Content Include="styles\app.css" />

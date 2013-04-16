@@ -4,16 +4,17 @@
 
 	<head>
 		<title></title>
-		<meta charset="utf-8" />
+	    <meta charset="utf-8" />
+
 		<script src="cordova.js"></script>
 		<script src="kendo/js/jquery.min.js"></script>
 		<script src="kendo/js/kendo.mobile.min.js"></script>
 		<script src="js/app.js"></script>
-        
-	    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCKZX6FtwyLG6mhzUcCtsgzDVwixnkjDTI&sensor=true"></script>
+	    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCKZX6FtwyLG6mhzUcCtsgzDVwixnkjDTI&sensor=true"></script>
 
 	    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
-		<link href="styles/app.css" rel="stylesheet" />
+	    <link href="styles/app.css" rel="stylesheet" />
+        
 	</head>
 
 	<body>
@@ -28,15 +29,15 @@
 				<div data-role="tabstrip">
 					<a href="#home" data-icon="home">Home</a>
 					<a href="#search" data-icon="search">Search</a>
-					<a href="#favourites" data-icon="favorites">Favourites</a>
+					<a href="#favourites" data-icon="favorites" id="fav">Favourites</a>
 				</div>
 			</footer>
 		</div>
 
 		<div data-role="view" id="home" data-layout="default" data-title="Home">
-			<img src="img/Logo.png" />
+			<img src="images/Logo.png" />
 			<h2 align="center">People Directory</h2>
-			<p style="font-size:smaller">
+			<p>
 				People Directory is a demo of a cross-platform device application
 				written in HTML5, JavaScript and CSS3. The application is styled to
 				mimic a native device application using the Kendo UI library from Telerik
@@ -47,7 +48,7 @@
 		</div>
 
 		<div data-role="view" id="search" data-layout="default" data-title="Search">
-			<div class="search-container">
+			<div class="search-container" data-stretch="true">
 				<input
                     class="search-text"
 					id="searchBox"
@@ -55,7 +56,8 @@
 					type="search"
 					value=""
 					placeholder="First or last name (or part of)"
-					required
+                    required
+                    autofocus
 					onchange="getData(onResult)" />
 				<a
                     id="search-button"
@@ -65,7 +67,6 @@
 			</div>
 
 			<ul id="contactsList"
-				class="item-list"
 				data-role="listview"
 				data-template="personTemplate">
 			</ul>
@@ -74,7 +75,6 @@
 		<div data-title="Favourites" data-role="view" id="favourites" data-url="/" data-layout="default" data-show="showFavorites">
 
 			<ul id="featuredList"
-				class="item-list"
 				data-role="listview"
 				data-template="personTemplateFavs">
 			</ul>
@@ -85,7 +85,7 @@
 	        <header data-role="header">
 	            <div data-role="navbar">
 	                <a data-role="backbutton" data-align="left" data-icon="reply" class="button"></a>
-	                <a data-role="button" type="button" id="savebutton" data-click="addToFavs" data-align="right" data-icon="favorites" class="button"></a>
+	                <a data-role="button" id="savebutton" data-click="addToFavs" data-align="right" data-icon="favorites" class="button"></a>
 	                <span data-role="view-title">Contact Profile</span>
 	            </div>
 	        </header>
@@ -97,7 +97,7 @@
 	    </div>
         
         
-        <div id="locationMap" data-title="Map" data-role="view" data-layout="default"  data-stretch="true"  >
+        <div id="locationMap" data-title="Map" data-role="view" data-layout="default"  data-stretch="true">
       
              <header data-role="header">
 	            <div data-role="navbar">
@@ -113,45 +113,43 @@
         </div>
 
 
-        <script id="personTemplate" type="text/x-kendo-template">
-			<a  
-				class="details-link"
-				data-role="listview-link"
-				href="\#details?id=${data.PersonId}&calleeType=search">
-				<div id="person">
-					<img class='contactImg' onerror='this.style.display = "none"' border="0" id='img#=data.PersonId#'  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
-					<h2>#=data.FirstName# #=data.LastName#</h2>
-
-				</div>
-			</a>
-           
+	    <script id="personTemplate" type="text/x-kendo-template">
+            <div class="person">
+                <a
+				    data-role="listview-link"
+				    href="\#details?id=${data.PersonId}&calleeType=search">
+					    <img onerror='this.style.display = "none"' border="0" id='img#=data.PersonId#'  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
+					    <span>#=data.FirstName# #=data.LastName#</span>
+			    </a>
+            </div>
 		</script>
 
-		<script id="personTemplateFavs" type="text/x-kendo-template">
-			<a 
-				class="details-link"
-				data-role="listview-link"
-				href="\#details?id=${data.PersonId}&calleeType=favs">
-				<div id="person">
-					<img  class='contactImg' onerror='this.style.display = "none"' border="0" id='img#=data.PersonId#'  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
-					<h2>#=data.FirstName# #=data.LastName#</h2>
-
-				</div>
-			</a>
-           
-		</script>
+	    <script id="personTemplateFavs" type="text/x-kendo-template">
+            <div class="person">
+                <a
+				    data-role="listview-link"
+				    href="\#details?id=${data.PersonId}&calleeType=favs">
+					    <img onerror='this.style.display = "none"' border="0" id='img#=data.PersonId#'  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
+					    <span>#=data.FirstName# #=data.LastName#</span>
+			    </a>
+            </div>
+	    </script>
 
 	    <script id="detailTemplate" type="text/x-kendo-template">
 			<ul id="tabstrip-profile" data-role="listview" data-style="inset" data-type="group">
-				<li style="font-size:small;">
+				<li>
 					Profile
 					<ul>
 						<li>
-							<h2>#=data.FirstName# <span>#=data.LastName#</span></h2>
-							<img   class='contactImg' width="72px"  src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
+                            <div class="person">
+                                <a style="font-size:0.7em">
+					                <img onerror='this.style.display = "none"' border="0" src="http://peopledirectory.cloudapp.net/#=data.PersonId#.jpg" />
+					                <span>#=data.FirstName# #=data.LastName#</span>
+			                    </a>
+                            </div>            
 						</li>
 						<li>
-							<ul data-role="listview" data-style="inset" data-type="group">
+							<ul data-role="listview" data-type="group" style="font-size:0.7em">
 								<li>
 									Contact Details: 
 									<ul>
@@ -170,8 +168,9 @@
                                                     <br/> #=data.AddressLine1# 
                                                     <br/> #=data.AddressLine2# 
                                                     <br/> #=data.AddressLine3# 
-                                                    <br/> #=data.CountryCode# 
-                                                    <br/> <button data-role="button" data-icon="globe"  data-click="showLocationMap" id="showMap"></button> </span>
+                                                    <br/> #=data.CountryCode#
+                                                    <br/> 
+                                                    <br/> <button data-role="button" data-icon="globe" font-size="2em" data-click="showLocationMap" id="showMap"></button> </span>
                                              
 										</li>
 									</ul>
@@ -209,7 +208,7 @@
 		    var _currentPerson;
 
 		    // Kick off the App
-		    _app = new kendo.mobile.Application($(document.body), { transition: "fade" });
+		    _app = new kendo.mobile.Application($(document.body), { transition: "slide" });
 
 		    $(document).ready(function () {
 		        // if this is the first time then show the welcome page

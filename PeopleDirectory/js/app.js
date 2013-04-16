@@ -2,8 +2,6 @@
 
 function initApp() {
 
-  
-
     // init schema
     _schema = {
         data: "d",
@@ -46,8 +44,10 @@ function initApp() {
 
     // attempt to get the favs
     var favData = localStorage.getItem(_storageKeyFavs);
-    if (favData != null) {
+    if (favData != null)
+    {
         _dsFavourites._data = JSON.parse(favData);
+        updateBadge(_dsFavourites._data.length);
     }
 
 }
@@ -127,7 +127,7 @@ function showLocationMap(e) {
     _app.navigate('#locationMap', 'slide:right');
     // get the view
     var mapView = $("#locationMap");
-    
+
     // we have the currently selected person via _currentPerson
 
     var lat = _currentPerson.Latitude;
@@ -140,17 +140,17 @@ function showLocationMap(e) {
         zoom: 16,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    
+
     var mapObj = document.getElementById("map_holder");
     var map = new google.maps.Map(mapObj, mapOptions);
-   
+
     var marker = new google.maps.Marker({
         position: latLng,
         map: map,
         title: _currentPerson.OfficeName + "\n" + _currentPerson.AddressLine1 + "\n" + _currentPerson.AddressLine2 + "\n" + _currentPerson.AddressLine3
     });
 
-   // navigator.geolocation.getCurrentPosition(onGEOSuccess, onGEOError);
+    // navigator.geolocation.getCurrentPosition(onGEOSuccess, onGEOError);
 }
 
 function showDirection(orgn, dstntn) {
@@ -171,12 +171,12 @@ function showDirection(orgn, dstntn) {
         travelMode: google.maps.DirectionsTravelMode.WALKING
     };
 
-    directionsService.route(request, function(response, status) {
+    directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
         }
     });
-    var win = function(position) {
+    var win = function (position) {
         var lat = position.coords.latitude;
         var long = position.coords.longitude;
         var myLatlng = new google.maps.LatLng(lat, long);
@@ -197,7 +197,7 @@ function showDirection(orgn, dstntn) {
         map.fitBounds(bounds);
     };
 
-    var fail = function(e) {
+    var fail = function (e) {
         alert('Can\'t retrieve position.\nError: ' + e);
     };
 
@@ -233,6 +233,8 @@ function addToFavs(e) {
         // show the correct icon
         showRemoveFromFavIcon();
 
+        updateBadge(_dsFavourites.data().length);
+
         // tell the user!
         alert(person.FirstName
             + ' ' + person.LastName
@@ -259,6 +261,8 @@ function addToFavs(e) {
 
         // show the correct icon
         showAddToFavIcon();
+
+        updateBadge(_dsFavourites.data().length);
 
         // tell the user!
         alert(person.FirstName
@@ -331,7 +335,7 @@ function showDetailsView(e) {
             switchFavouritesButtonIcon(view.params.id);
 
             kendo.mobile.init(view.content);
-            
+
         });
 
     } else {
@@ -362,12 +366,12 @@ function showDetailsView(e) {
                 // show the delete icon
                 showRemoveFromFavIcon();
 
-              
+
 
                 // kick off the view
                 kendo.mobile.init(view.content);
-                
-                
+
+
             }
 
 
@@ -390,7 +394,7 @@ function showContacts(e) {
 /// Displays the favourites
 /// </summary>
 function showFavorites(e) {
-    
+
     $("#featuredList").kendoMobileListView({ dataSource: _dsFavourites, template: $("#personTemplateFavs").html() });
     // if we don't have any data then we need to force a refresh (so we get an empty list)
     if (_dsFavourites._data.length >= 0) {
@@ -413,10 +417,13 @@ function getData(callback) {
 
     var searchTerm = '';
 
-    if (searchBox.value != null) {
+    if (searchBox.value != null) 
+    {
+        
+        clearContactsList();
 
         //searchTerm = "http://localhost:1679/CloudProxy.ashx?search=" + searchBox.value;
-           searchTerm = "http://peopledirectory.cloudapp.net/PeopleDirectoryWCFDataService.svc/GetPeople?$top=50&namePart='" + searchBox.value + "'";
+        searchTerm = "http://peopledirectory.cloudapp.net/PeopleDirectoryWCFDataService.svc/GetPeople?$top=50&namePart='" + searchBox.value + "'";
 
         _ds = new kendo.data.DataSource({
             transport: {
@@ -450,6 +457,13 @@ function getData(callback) {
 
 }
 
+function clearContactsList()
+{
+    $("#contactsList").hide();
+    $("#contactsList").empty();
+    $("#contactsList").show();
+}
+
 /// <summary>
 /// Bind the results and use the template to show each row
 /// </summary>
@@ -466,5 +480,10 @@ function onResult(resultData) {
 
     // hide the loading after we get the results
     _app.hideLoading();
+}
+
+function updateBadge(count)
+{
+    $("#fav .km-text").find(".km-badge").remove().end().append("<span class='km-badge'>" + count + "</span>")
 }
 
